@@ -35,11 +35,11 @@ def preprocess_image(image, flip=False, scale=None, crop=None):
         new_size = (int(round(w * random_scale)), int(round(h * random_scale)))
         image = image.resize(new_size, Image.ANTIALIAS)
 
-    data_transforms = transforms.Compose([
-      transforms.ToTensor(),
-      transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-    ])
-    image = data_transforms(image)
+    # data_transforms = transforms.Compose([
+    #   transforms.ToTensor(),
+    #   transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    # ])
+    # image = data_transforms(image)
 
     return image
 
