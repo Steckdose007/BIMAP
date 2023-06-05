@@ -22,8 +22,9 @@ class FacesDataset(Dataset):
     def __getitem__(self, index):
         number,gender,age = self.label_list[index]
         image_name = os.path.join(self.image_dir, self.image_files[number])
-        image = PIL.Image.open(image_name)
-        label = (age,gender)
+        image =PIL.Image.open(image_name)
+        #image = cv2.imread(image_name,  cv2.IMREAD_UNCHANGED)
+        label = (age + " "+gender)
         if self.transform:
             image = self.transform(image)
         return (image, label)
