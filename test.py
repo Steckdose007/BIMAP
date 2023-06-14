@@ -49,6 +49,8 @@ import PIL
 # print(stable_diffusion_txt2img.unet)
 """
 IDEE: Train normal text to img and use img as gaussian noise
+dreambooth train only on my face
+difference between img2img and text2img
 """
 device = "cuda"
 

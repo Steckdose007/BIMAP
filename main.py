@@ -47,10 +47,10 @@ This method initializes the dataloader with the args defined below
 def get_data(args):
     transforms = torchvision.transforms.Compose([
         #torchvision.transforms.ToPILImage(),
-        torchvision.transforms.Resize(80),  # args.image_size + 1/4 *args.image_size
-        torchvision.transforms.RandomResizedCrop(args.image_size, scale=(0.8, 1.0)),
+        #torchvision.transforms.Resize(80),  # args.image_size + 1/4 *args.image_size
+        #torchvision.transforms.RandomResizedCrop(args.image_size, scale=(0.8, 1.0)),
         torchvision.transforms.ToTensor(),
-        torchvision.transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+        #torchvision.transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
     root = Path(os.getcwd())
     image_dir = root / args.dataset_path
@@ -85,8 +85,11 @@ def show_diffusion(image, target,num_train_timesteps,device,diffusion):
     plt.axis('off')
     inter = 0
     for idx in range(0, T, stepsize):
-        t = torch.tensor(idx)
+        t = random.randint(0, 1000)
+        t = torch.tensor(t)
+        print("t",t)
         # t = sample_timesteps(num_train_timesteps, 1).to(device)
+        #print("img",image)
         noise = torch.randn(image.shape)
         x_t = diffusion.add_noise(image, noise, t)
         img = x_t
@@ -121,7 +124,7 @@ def train(args):
     #ckpt_path = hf_hub_download(repo_id="CompVis/stable-diffusion-v-1-4-original", filename="sd-v1-4-full-ema.ckpt", use_auth_token=True)
     model_id = "runwayml/stable-diffusion-v1-5"
     stable_diffusion_txt2img = StableDiffusionPipeline.from_pretrained(model_id, variant="non_ema")
-    model = stable_diffusion_txt2img.unet
+    #model = stable_diffusion_txt2img.unet
     #model_text_encoder = CLIPTextModel.from_pretrained(repo_id, subfolder="text_encoder")
     tokenizer = CLIPTokenizer.from_pretrained(
         model_id, subfolder="tokenizer"#, revision=args.revision The specific model version to use. It can be a branch name, a tag name, or a commit id, since we use a git-based system for storing models and other artifacts on huggingface.co, so revision can be any identifier allowed by git.
@@ -135,10 +138,10 @@ def train(args):
     # )
     print("model loaded")
     #print(model)
-    vgg = models.vgg16()
-    summary(vgg, (3, 513, 513))
-    optimizer = optim.AdamW(model.parameters(), lr=args.lr)
-    diffusion = Diffusion(img_size=args.image_size, device=args.device)
+    #vgg = models.vgg16()
+    #summary(vgg, (3, 513, 513))
+    #optimizer = optim.AdamW(model.parameters(), lr=args.lr)
+    #diffusion = Diffusion(img_size=args.image_size, device=args.device)
     num_train_timesteps = 1000
     diffusion = DDPMScheduler(num_train_timesteps)
 
@@ -147,18 +150,21 @@ def train(args):
         # Each epoch has a training and validation phase
         for phase in ['train', 'val']:
             if phase == 'train':
-                model.train()  # Set model to training mode
+                #model.train()  # Set model to training mode
+                pass
             else:
-                model.eval()  # Set model to evaluate mode
+                pass
+                #model.eval()  # Set model to evaluate mode
             logging.info(f"Starting epoch {epoch}:")
             pbar = tqdm(dataloaders[phase])
             for idx, (data, target) in enumerate(pbar):
-                images = data.to(device)
+                images = data
                 print('Batch index: ', idx)
                 print('Batch size: ', data.size())
                 print('Batch label: ', np.shape(target), type(target))
                 print("idx",idx)
-                # show_diffusion(images[0], (target[0][0], target[1][0]), num_train_timesteps, device, diffusion)
+                print("DATAAAAAA",data.shape)
+                show_diffusion(images[0], (target[0][0], target[1][0]), num_train_timesteps, device, diffusion)
                 # break
                 target_tokenized = tokenize_captions(target,tokenizer).to(device)
                 encoder_hidden_states = text_encoder(target)[0]
@@ -166,6 +172,7 @@ def train(args):
                 #print(target_tokenized)
                 t = sample_timesteps(num_train_timesteps,data.shape[0]).to(device)
                 noise = torch.randn(data.shape).float().to(device)
+
                 x_t = diffusion.add_noise(images, noise, t)
                 alpha_tensor = torch.ones(args.batch_size, 1, 513, 513).to(device)
                 x_t = torch.cat((x_t, alpha_tensor), dim=1)
