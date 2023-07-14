@@ -16,7 +16,9 @@ from datasets import Dataset, Features
 from datasets import Image as ImageFeature
 from datasets import Value
 
-
+"""
+Generator: generator/default to /home/hpc/iwb3/iwb3009h/.cache/huggingface/datasets/generator/default-16ab807c01459ec8/0.0.0...
+"""
 class ImageDataset(torch.utils.data.Dataset):
     def __init__(self, csv_path, img_dir):
         self.path = img_dir

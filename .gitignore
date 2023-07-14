@@ -1,1 +1,9 @@
 /images1024x1024/
+/Text_to_image/diffusers/examples/instruct_pix2pix/dataset_hugg/
+/Text_to_image/diffusers/examples/instruct_pix2pix/dataset_hugg_big/
+/Text_to_image/diffusers/examples/instruct_pix2pix/dataset_hugg_non_diff/
+/Text_to_image/diffusers/examples/instruct_pix2pix/trained_on_non_diff/
+/Text_to_image/diffusers/examples/instruct_pix2pix/generator/
+/Text_to_image/diffusers/examples/instruct_pix2pix/trained_with_diff/
+/Text_to_image/diffusers/examples/instruct_pix2pix/CHECKPOINT_MODEL.ckpt/
+/Text_to_image/diffusers/examples/text_to_image/model_text2img_trained/

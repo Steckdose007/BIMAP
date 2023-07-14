@@ -1,0 +1,36 @@
+accelerate launch --mixed_precision="fp16" --multi_gpu train_instruct_pix2pix.py \
+ --pretrained_model_name_or_path=CompVis/stable-diffusion-v1-4 \
+ --dataset_name=/home/woody/iwb3/iwb3009h/dataset_hugg_big_non_diff \
+ --use_ema \
+ --enable_xformers_memory_efficient_attention \
+ --resolution=512 --random_flip \
+ --train_batch_size=4 --gradient_accumulation_steps=4 --gradient_checkpointing \
+ --max_train_steps=15000 \
+ --checkpointing_steps=5000 --checkpoints_total_limit=1 \
+ --learning_rate=5e-05 --lr_warmup_steps=0 \
+ --conditioning_dropout_prob=0.05 \
+ --mixed_precision=fp16 \
+ --seed=42 \
+ --output_dir=/home/woody/iwb3/iwb3009h/trained/
+
+
+export MODEL_NAME="CompVis/stable-diffusion-v1-4"
+export DATASET_NAME="/home/woody/iwb3/iwb3009h/dataset_hugg_big_non_diff"
+
+accelerate launch --mixed_precision="fp16"  train_text_to_image.py \
+  --pretrained_model_name_or_path=$MODEL_NAME \
+  --dataset_name=$DATASET_NAME \
+  --use_ema \
+  --resolution=512 --center_crop --random_flip \
+  --train_batch_size=1 \
+  --gradient_accumulation_steps=4 \
+  --gradient_checkpointing \
+  --max_train_steps=15000 \
+  --learning_rate=1e-05 \
+  --max_grad_norm=1 \
+  --lr_scheduler="constant" --lr_warmup_steps=0 \
+  --image_column="original_image" \
+  --caption_column="edit_prompt" \
+  --output_dir="sd-pokemon-model" 
+
+python convert.py --model_path="C:\Users\flori\Documents\Text_to_image\diffusers\examples\text_to_image\model_text2img_trained" --checkpoint_path="C:/Users/flori/Documents/WebUI-StableDiffusion/stable-diffusion-webui/models/Stable-diffusion/model_textimg.ckpt"

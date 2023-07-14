@@ -1,0 +1,58 @@
+VPN: https://www.anleitungen.rrze.fau.de/internet-zugang/vpn/
+		
+	vpn.fau.de
+	idm-id
+
+SSH: 
+	https://www.anleitungen.rrze.fau.de/internet-zugang/vpn/
+	vpn.fau.de
+
+## Basic workflow
+
+1. front end node ( to install any packages)
+
+	ssh iwb3009h@tinyx.nhr.fau.de 
+	pass: BIMAP01@2486
+
+2. Connect GPU node
+
+	srun --partition=rtx3080 --nodes=1 --clusters=tinygpu --time=24:0:0 --gres=gpu:rtx3080:1 --pty /bin/bash -l
+	srun --partition=rtx2080ti --nodes=1 --clusters=tinygpu --time=24:0:0 --gres=gpu:rtx2080ti:1 --pty /bin/bash -l
+	srun --partition=v100 --nodes=1 --clusters=tinygpu --time=24:0:0 --gres=gpu:v100:1 --pty /bin/bash -l
+	srun --partition=a100 --nodes=1 --clusters=tinygpu --time=24:0:0 --gres=gpu:a100:1 --pty /bin/bash -l
+
+   To connct more GPUs
+	
+	srun --partition=a100 --nodes=1 --clusters=tinygpu --time=24:0:0 --gres=gpu:a100:4 --pty /bin/bash -l
+
+3. Go to the directory 
+
+	cd $HOME == cd /home/hpc
+	cd /home/woody/iwb3/iwb3009h
+
+4. Activate the environment / Install python packages (another terminal)
+
+	source $HOME/miniconda3/bin/activate $WORK/envs/bimap
+
+5. Run python scripts
+
+	export https_proxy=http://proxy:80
+
+6. Use SCP to copy data
+
+
+
+#### Submitting job scripts
+
+1. Open a new screen: screen -S name_of_the_screen
+2. To detach a screen session: Ctrl+a+d
+3. To get all the screen session: 
+	in the main terminal: screen -ls
+4. To enter to an existing screeen: screen -r screen_id
+	you will get the screen ids from: screen -ls
+
+python convert.py --model_path "C:/Users/flori/Documents/Text_to_image/diffusers/examples/instruct_pix2pix/trained_on_non_diff/" --checkpoint_path "C:/Users/flori/Documents/Text_to_image/diffusers/examples/instruct_pix2pix/CHECKPOINT_MODEL_ohne_diff.ckpt"
+	
+
+
+#### 
