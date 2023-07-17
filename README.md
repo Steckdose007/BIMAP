@@ -10,3 +10,11 @@ Review of GAN approaches: https://ieeexplore.ieee.org/ielx7/6287639/9668973/0972
 Rombach et al. - “High-Resolution Image Synthesis with Latent Diffusion Models”
 https://github.com/CompVis/stable-diffusion
 https://github.com/royorel/FFHQ-Aging-Dataset
+
+Go to folder first attempt to see a not finished training setup of a stable diffusion model
+Go to folder ResNetAge to get a age classifing resnet to validate the fine tuned model
+Go to foler Text_to_image to get a fully trained stable diffusion model which ages or juvinates you.
+train_instruct_pix2pix is a training script for a img2img diffusion model
+create with create_notIterable_dataset.py a dataset which train_instruct_pix2pix and the train script in Text_to_image can use.
+Example dataset is dataset_test
+convert_from_bin_to_ckpt: convert a model from bin to ckpt
