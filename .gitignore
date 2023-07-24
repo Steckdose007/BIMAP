@@ -7,3 +7,11 @@
 /Text_to_image/diffusers/examples/instruct_pix2pix/trained_with_diff/
 /Text_to_image/diffusers/examples/instruct_pix2pix/CHECKPOINT_MODEL.ckpt/
 /Text_to_image/diffusers/examples/text_to_image/model_text2img_trained/
+/TextToImage/instruct_pix2pix/dataset_hugg/
+/TextToImage/instruct_pix2pix/dataset_hugg_big/
+/TextToImage/instruct_pix2pix/dataset_hugg_big_non_diff/
+/TextToImage/instruct_pix2pix/generator/
+/TextToImage/instruct_pix2pix/trained_on_non_diff/
+/TextToImage/instruct_pix2pix/trained_with_diff/
+/TextToImage/instruct_pix2pix/CHECKPOINT_MODEL.ckpt
+/TextToImage/text_to_image/model_text2img_trained/
